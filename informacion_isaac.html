@@ -9,21 +9,53 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #000;
+            background-color: #1a1a1a;
             color: #fff;
         }
         h1 {
             color: #fff;
             text-align: center;
             font-size: 2.5em;
+            margin-bottom: 20px;
         }
-        p {
+        table {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+        th {
+            background-color: #a00000; /* Azul Inter Milan */
+            color: #fff;
             font-size: 1.2em;
-            line-height: 1.6;
+        }
+        td {
+            font-size: 1.1em;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        ul li {
+            padding: 5px 0;
         }
         a {
-            color: #1e90ff;
+            color: #8b0000; /* Azul Inter Milan */
             text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
         }
         a:hover {
             text-decoration: underline;
@@ -32,16 +64,42 @@
 </head>
 <body>
     <h1>Información de Isaac</h1>
-    <p><strong>Nombre completo:</strong> Alberto Isaac Rodríguez Rojas</p>
-    <p><strong>Edad:</strong> 28</p>
-    <p><strong>Birth:</strong> 04/01/1997</p>
-    <p><strong>Equipo:</strong> Inter Milan</p>
-    <p><strong>Títulos:</strong></p>
-    <ul>
-        <li>Ligas: 5</li>
-        <li>Ediciones: I, III, IV, XIII, XIV</li>
-        <li>Copas: 3</li>
-    </ul>
-    <p><a href="index.html">Volver a la tabla principal</a></p>
+    <table>
+        <tr>
+            <th colspan="2">Datos Personales</th>
+        </tr>
+        <tr>
+            <td><strong>Nombre completo:</strong></td>
+            <td>Alberto Isaac Rodríguez Rojas</td>
+        </tr>
+        <tr>
+            <td><strong>Edad:</strong></td>
+            <td>28</td>
+        </tr>
+        <tr>
+            <td><strong>Birth:</strong></td>
+            <td>04/01/1997</td>
+        </tr>
+        <tr>
+            <td><strong>Equipo:</strong></td>
+            <td>Inter Milan</td>
+        </tr>
+        <tr>
+            <th colspan="2">Títulos</th>
+        </tr>
+        <tr>
+            <td><strong>Ligas:</strong></td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td><strong>Ediciones:</strong></td>
+            <td>I, III, IV, XIII, XIV</td>
+        </tr>
+        <tr>
+            <td><strong>Copas:</strong></td>
+            <td>3</td>
+        </tr>
+    </table>
+    <a href="index.html">Volver a la tabla principal</a>
 </body>
 </html>
