@@ -76,30 +76,75 @@
         a:hover {
             text-decoration: underline;
         }
+
+        /* Estilos para el menú desplegable */
         nav {
             background-color: #2c3e50;
             padding: 10px;
             border-radius: 8px;
             margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .menu-button {
+            display: none; /* Ocultar el botón en pantallas grandes */
+            background-color: #1e90ff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .menu-button:hover {
+            background-color: #1c86ee;
         }
         nav ul {
             list-style: none;
             padding: 0;
             margin: 0;
             display: flex;
-            justify-content: center;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         nav ul li {
-            margin: 0 15px;
+            margin: 0;
         }
         nav ul li a {
             color: #fff;
             text-decoration: none;
             font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
         }
         nav ul li a:hover {
-            text-decoration: underline;
+            background-color: rgba(255, 255, 255, 0.1);
+            text-decoration: none;
         }
+        nav ul li a:active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Estilos para pantallas pequeñas */
+        @media (max-width: 768px) {
+            .menu-button {
+                display: block; /* Mostrar el botón en pantallas pequeñas */
+                width: 100%;
+                text-align: center;
+            }
+            nav ul {
+                display: none; /* Ocultar el menú en pantallas pequeñas */
+                flex-direction: column;
+                gap: 5px;
+            }
+            nav ul.active {
+                display: flex; /* Mostrar el menú cuando está activo */
+            }
+        }
+
         .modo-claro {
             background-color: #fff;
             color: #000;
@@ -131,12 +176,15 @@
 </head>
 <body>
 
-    <!-- Menú de navegación -->
+    <!-- Barra de navegación con menú desplegable -->
     <nav>
-        <ul>
+        <button class="menu-button" id="menuButton">☰ Menú</button>
+        <ul id="menu">
             <li><a href="#tablaGeneral">Tabla General</a></li>
             <li><a href="#tablaTitulos">Títulos</a></li>
             <li><a href="#tablaCampeones">Historial de Campeones</a></li>
+            <li><a href="#graficoPuntos">Gráfico de Puntos</a></li>
+            <li><a href="#graficoResultados">Gráfico de Resultados</a></li>
         </ul>
     </nav>
 
@@ -144,8 +192,8 @@
 
     <!-- Tabla General -->
     <div class="table-container">
-        <h2>Tabla General</h2>
-        <table id="tablaGeneral">
+        <h2 id="tablaGeneral">Tabla General</h2>
+        <table id="tablaGeneralTable">
             <thead>
                 <tr>
                     <th>Jugador</th>
@@ -165,8 +213,8 @@
 
     <!-- Títulos -->
     <div class="table-container">
-        <h2>Títulos</h2>
-        <table id="tablaTitulos">
+        <h2 id="tablaTitulos">Títulos</h2>
+        <table id="tablaTitulosTable">
             <thead>
                 <tr>
                     <th>Jugador</th>
@@ -183,8 +231,8 @@
 
     <!-- Historial de Campeones -->
     <div class="table-container">
-        <h2>Historial de Campeones</h2>
-        <table id="tablaCampeones">
+        <h2 id="tablaCampeones">Historial de Campeones</h2>
+        <table id="tablaCampeonesTable">
             <thead>
                 <tr>
                     <th>Edición</th>
@@ -200,8 +248,14 @@
 
     <!-- Gráfico de puntos -->
     <div>
-        <h2>Gráfico de Puntos</h2>
-        <canvas id="graficoPuntos"></canvas>
+        <h2 id="graficoPuntos">Gráfico de Puntos</h2>
+        <canvas id="graficoPuntosCanvas"></canvas>
+    </div>
+
+    <!-- Gráfico de victorias, empates y derrotas -->
+    <div>
+        <h2 id="graficoResultados">Victorias, Empates y Derrotas</h2>
+        <canvas id="graficoResultadosCanvas"></canvas>
     </div>
 
     <!-- Botón para cambiar modo -->
@@ -283,13 +337,13 @@
         }
 
         // Llenar las tablas con los datos
-        fillTable('tablaGeneral', dataGeneral, ['jugador', 'jj', 'g', 'e', 'p', 'pts', 'porcentual']);
-        fillTable('tablaTitulos', dataTitulos, ['jugador', 'lig', 'cup', 'total']);
-        fillTable('tablaCampeones', dataCampeones, ['edicion', 'campeon', 'sede']);
+        fillTable('tablaGeneralTable', dataGeneral, ['jugador', 'jj', 'g', 'e', 'p', 'pts', 'porcentual']);
+        fillTable('tablaTitulosTable', dataTitulos, ['jugador', 'lig', 'cup', 'total']);
+        fillTable('tablaCampeonesTable', dataCampeones, ['edicion', 'campeon', 'sede']);
 
         // Gráfico de puntos
-        const ctx = document.getElementById('graficoPuntos').getContext('2d');
-        const chart = new Chart(ctx, {
+        const ctxPuntos = document.getElementById('graficoPuntosCanvas').getContext('2d');
+        const chartPuntos = new Chart(ctxPuntos, {
             type: 'bar',
             data: {
                 labels: dataGeneral.map(item => item.jugador),
@@ -310,6 +364,49 @@
             }
         });
 
+        // Gráfico de victorias, empates y derrotas
+        const ctxResultados = document.getElementById('graficoResultadosCanvas').getContext('2d');
+        const chartResultados = new Chart(ctxResultados, {
+            type: 'bar',
+            data: {
+                labels: dataGeneral.map(item => item.jugador),
+                datasets: [
+                    {
+                        label: 'Victorias',
+                        data: dataGeneral.map(item => item.g),
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Empates',
+                        data: dataGeneral.map(item => item.e),
+                        backgroundColor: 'rgba(255, 206, 86, 0.6)',
+                        borderColor: 'rgba(255, 206, 86, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Derrotas',
+                        data: dataGeneral.map(item => item.p),
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: {
+                        stacked: true,
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
         // Botón para cambiar modo oscuro/claro
         const toggleModo = document.getElementById('toggleModo');
         toggleModo.addEventListener('click', () => {
@@ -319,6 +416,14 @@
             } else {
                 toggleModo.textContent = 'Cambiar a modo claro';
             }
+        });
+
+        // Menú desplegable
+        const menuButton = document.getElementById('menuButton');
+        const menu = document.getElementById('menu');
+
+        menuButton.addEventListener('click', () => {
+            menu.classList.toggle('active');
         });
     </script>
 
