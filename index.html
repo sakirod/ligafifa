@@ -3,90 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liga de FIFA</title>
+    <title>Sala de Récords</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
+        /* Estilos generales */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #000;
+            padding: 0;
+            background-color: #1a1a1a;
             color: #fff;
             transition: background-color 0.3s, color 0.3s;
         }
+
         h1, h2 {
             color: #fff;
             text-align: center;
         }
+
         h1 {
             font-size: 2.5em;
             margin-bottom: 20px;
+            margin-top: 40px;
         }
+
         h2 {
             font-size: 2em;
             margin-top: 40px;
             margin-bottom: 20px;
         }
+
+        /* Contenedor principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Estilos de la tabla */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 40px;
-            background-color: #1c1c1e;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            background-color: #2c2c2c;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
             overflow: hidden;
-            transition: transform 0.3s ease, background-color 0.3s;
-        }
-        table:hover {
-            transform: scale(1.02);
-        }
-        th, td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid #333;
-        }
-        th {
-            background-color: #2c3e50;
-            color: #fff;
-            font-weight: bold;
-        }
-        tr:nth-child(even) {
-            background-color: #2c2c2e;
-        }
-        tr:hover {
-            background-color: #3a3a3c;
-        }
-        .table-container {
-            overflow-x: auto;
-        }
-        .table-container::-webkit-scrollbar {
-            height: 8px;
-        }
-        .table-container::-webkit-scrollbar-thumb {
-            background-color: #2c3e50;
-            border-radius: 4px;
-        }
-        .table-container::-webkit-scrollbar-track {
-            background-color: #1c1c1e;
-        }
-        a {
-            color: #1e90ff;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* Estilos para el menú desplegable */
-        nav {
-            background-color: #2c3e50;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        table:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
         }
-        .menu-button {
-            display: none; /* Ocultar el botón en pantallas grandes */
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #444;
+        }
+
+        th {
+            background-color: #1e90ff;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        tr:nth-child(even) {
+            background-color: #3a3a3a;
+        }
+
+        tr:hover {
+            background-color: #4a4a4a;
+        }
+
+        td {
+            color: #ccc;
+        }
+
+        td strong {
+            color: #1e90ff;
+        }
+
+        /* Botón de modo claro/oscuro */
+        .mode-toggle {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .mode-toggle button {
             background-color: #1e90ff;
             color: #fff;
             border: none;
@@ -96,171 +102,126 @@
             font-size: 16px;
             transition: background-color 0.3s;
         }
-        .menu-button:hover {
+
+        .mode-toggle button:hover {
             background-color: #1c86ee;
         }
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        nav ul li {
-            margin: 0;
-        }
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 10px 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        nav ul li a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            text-decoration: none;
-        }
-        nav ul li a:active {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
 
-        /* Estilos para pantallas pequeñas */
-        @media (max-width: 768px) {
-            .menu-button {
-                display: block; /* Mostrar el botón en pantallas pequeñas */
-                width: 100%;
-                text-align: center;
-            }
-            nav ul {
-                display: none; /* Ocultar el menú en pantallas pequeñas */
-                flex-direction: column;
-                gap: 5px;
-            }
-            nav ul.active {
-                display: flex; /* Mostrar el menú cuando está activo */
-            }
-        }
-
-        .modo-claro {
-            background-color: #fff;
-            color: #000;
-        }
-        .modo-claro h1,
-        .modo-claro h2,
-        .modo-claro th {
-            color: #000;
-        }
-        .modo-claro table {
-            background-color: #f9f9f9;
-            color: #000;
-        }
-        .modo-claro tr:nth-child(even) {
-            background-color: #f1f1f1;
-        }
-        .modo-claro tr:hover {
-            background-color: #ddd;
-        }
+        /* Pie de página */
         footer {
             text-align: center;
             margin-top: 40px;
             padding: 20px;
             background-color: #2c3e50;
             color: #fff;
-            border-radius: 8px;
+            border-radius: 10px;
+        }
+
+        /* Modo claro */
+        .modo-claro {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .modo-claro h1,
+        .modo-claro h2 {
+            color: #1e90ff;
+        }
+
+        .modo-claro table {
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .modo-claro th {
+            background-color: #1e90ff;
+            color: #fff;
+        }
+
+        .modo-claro tr:nth-child(even) {
+            background-color: #f1f1f1;
+        }
+
+        .modo-claro tr:hover {
+            background-color: #ddd;
+        }
+
+        .modo-claro td {
+            color: #555;
+        }
+
+        .modo-claro td strong {
+            color: #1e90ff;
+        }
+
+        .modo-claro footer {
+            background-color: #1e90ff;
+            color: #fff;
         }
     </style>
 </head>
 <body>
 
-    <!-- Barra de navegación con menú desplegable -->
-    <nav>
-        <button class="menu-button" id="menuButton">☰ Menú</button>
-        <ul id="menu">
-            <li><a href="#tablaGeneral">Tabla General</a></li>
-            <li><a href="#tablaTitulos">Títulos</a></li>
-            <li><a href="#tablaCampeones">Historial de Campeones</a></li>
-            <li><a href="#graficoPuntos">Gráfico de Puntos</a></li>
-            <li><a href="#graficoResultados">Gráfico de Resultados</a></li>
-            <li><a href="sala_de_records.html">Sala de Récords</a></li> <!-- Nuevo enlace -->
-        </ul>
-    </nav>
+    <div class="container">
+        <h1>Sala de Récords</h1>
 
-    <h1>Liga de FIFA</h1>
-
-    <!-- Tabla General -->
-    <div class="table-container">
-        <h2 id="tablaGeneral">Tabla General</h2>
-        <table id="tablaGeneralTable">
+        <!-- Tabla de récords -->
+        <h2>Récords de la Liga</h2>
+        <table>
             <thead>
                 <tr>
+                    <th>Récord</th>
                     <th>Jugador</th>
-                    <th>JJ</th>
-                    <th>G</th>
-                    <th>E</th>
-                    <th>P</th>
-                    <th>PTS</th>
-                    <th>Porcentual</th>
+                    <th>Detalle</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Filas de la tabla -->
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Títulos -->
-    <div class="table-container">
-        <h2 id="tablaTitulos">Títulos</h2>
-        <table id="tablaTitulosTable">
-            <thead>
                 <tr>
-                    <th>Jugador</th>
-                    <th>LIGA</th>
-                    <th>COPA</th>
-                    <th>Total Títulos</th>
+                    <td>Más partidos</td>
+                    <td><strong>Darío e Isaac</strong></td>
+                    <td>76 partidos cada uno</td>
                 </tr>
-            </thead>
-            <tbody>
-                <!-- Filas de la tabla -->
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Historial de Campeones -->
-    <div class="table-container">
-        <h2 id="tablaCampeones">Historial de Campeones</h2>
-        <table id="tablaCampeonesTable">
-            <thead>
                 <tr>
-                    <th>Edición</th>
-                    <th>Campeón</th>
-                    <th>Sede</th>
+                    <td>Más puntos</td>
+                    <td><strong>Darío</strong></td>
+                    <td>126 puntos</td>
                 </tr>
-            </thead>
-            <tbody>
-                <!-- Filas de la tabla -->
+                <tr>
+                    <td>Más títulos</td>
+                    <td><strong>Darío</strong></td>
+                    <td>15 títulos (7 ligas y 8 copas)</td>
+                </tr>
+                <tr>
+                    <td>Más victorias</td>
+                    <td><strong>Darío</strong></td>
+                    <td>36 victorias</td>
+                </tr>
+                <tr>
+                    <td>Más empates</td>
+                    <td><strong>Isaac</strong></td>
+                    <td>29 empates</td>
+                </tr>
+                <tr>
+                    <td>Más derrotas</td>
+                    <td><strong>Mercado</strong></td>
+                    <td>28 derrotas</td>
+                </tr>
+                <tr>
+                    <td>Mejor porcentaje</td>
+                    <td><strong>Darío</strong></td>
+                    <td>1.658</td>
+                </tr>
+                <tr>
+                    <td>Bicampeones</td>
+                    <td><strong>Isaac, Irvin y Darío</strong></td>
+                    <td>Isaac (III-IV y XIII-XIV), Irvin (XV-XVI), Darío (XVII-XVIII)</td>
+                </tr>
             </tbody>
         </table>
-    </div>
-
-    <!-- Gráfico de puntos -->
-    <div>
-        <h2 id="graficoPuntos">Gráfico de Puntos</h2>
-        <canvas id="graficoPuntosCanvas"></canvas>
-    </div>
-
-    <!-- Gráfico de victorias, empates y derrotas -->
-    <div>
-        <h2 id="graficoResultados">Victorias, Empates y Derrotas</h2>
-        <canvas id="graficoResultadosCanvas"></canvas>
     </div>
 
     <!-- Botón para cambiar modo -->
-    <div style="text-align: center; margin-top: 20px;">
+    <div class="mode-toggle">
         <button id="toggleModo">Cambiar a modo claro</button>
     </div>
 
@@ -269,146 +230,7 @@
         <p>© 2025 Liga de FIFA. Todos los derechos reservados.</p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Datos de la tabla general
-        const dataGeneral = [
-            { jugador: "Darío", jj: 71, g: 32, e: 18, p: 18, pts: 114, porcentual: 1.606 },
-            { jugador: "Isaac", jj: 71, g: 28, e: 28, p: 14, pts: 112, porcentual: 1.577 },
-            { jugador: "Irvin", jj: 63, g: 24, e: 16, p: 23, pts: 88, porcentual: 1.397 },
-            { jugador: "Rubén", jj: 58, g: 22, e: 14, p: 22, pts: 80, porcentual: 1.379 },
-            { jugador: "Mercado", jj: 63, g: 19, e: 20, p: 24, pts: 77, porcentual: 1.222 },
-            { jugador: "Pingo", jj: 10, g: 3, e: 3, p: 4, pts: 12, porcentual: 1.200 },
-            { jugador: "Taylor", jj: 29, g: 3, e: 7, p: 19, pts: 16, porcentual: 0.552 }
-        ];
-
-        // Datos de la tabla de títulos
-        const dataTitulos = [
-            { jugador: "Darío", lig: 6, cup: 8, total: 14 },
-            { jugador: "Isaac", lig: 5, cup: 4, total: 9 },
-            { jugador: "Irvin", lig: 4, cup: 2, total: 6 },
-            { jugador: "Mercado", lig: 1, cup: 2, total: 3 },
-            { jugador: "Pingo", lig: 1, cup: 0, total: 1 },
-            { jugador: "Rubén", lig: 0, cup: 2, total: 2 },
-            { jugador: "Taylor", lig: 0, cup: 0, total: 0 },
-        ];
-
-        // Datos del historial de campeones
-        const dataCampeones = [
-            { edicion: "I", campeon: "Isaac", sede: "Casa Taylor" },
-            { edicion: "II", campeon: "Darío", sede: "El Nido" },
-            { edicion: "III", campeon: "Isaac", sede: "El Nido" },
-            { edicion: "IV", campeon: "Isaac", sede: "Casa Rubis" },
-            { edicion: "V", campeon: "Darío", sede: "Casa Rubis" },
-            { edicion: "VI", campeon: "Mercado", sede: "El Nido" },
-            { edicion: "VII", campeon: "Darío", sede: "El Nido" },
-            { edicion: "VIII", campeon: "Irvin", sede: "El Nido" },
-            { edicion: "IX", campeon: "Darío", sede: "El Nido" },
-            { edicion: "X", campeon: "Pingo", sede: "Depa Pingo" },
-            { edicion: "XI", campeon: "Darío", sede: "Depa Pingo" },
-            { edicion: "XII", campeon: "Irvin", sede: "Casa Taylor" },
-            { edicion: "XIII", campeon: "Isaac", sede: "El Nido" },
-            { edicion: "XIV", campeon: "Isaac", sede: "El Nido" },
-            { edicion: "XV", campeon: "Irvin", sede: "Depa Rubén" },
-            { edicion: "XVI", campeon: "Irvin", sede: "El Nido" },
-            { edicion: "XVII", campeon: "Darío", sede: "El Nido" },
-            { edicion: "XVIII", campeon: "", sede: "Depa Rubén"}
-        ];
-
-        // Función para llenar una tabla con datos
-        function fillTable(tableId, data, columns) {
-            const table = document.getElementById(tableId);
-            const tbody = table.querySelector('tbody');
-
-            data.forEach(item => {
-                const row = document.createElement('tr');
-                columns.forEach(column => {
-                    const cell = document.createElement('td');
-                    if (column === 'jugador' || column === 'campeon') {
-                        const link = document.createElement('a');
-                        link.href = `informacion_${item[column].toLowerCase()}.html`; // Enlace a la página personal
-                        link.textContent = item[column];
-                        cell.appendChild(link);
-                    } else {
-                        cell.textContent = item[column];
-                    }
-                    row.appendChild(cell);
-                });
-                tbody.appendChild(row);
-            });
-        }
-
-        // Llenar las tablas con los datos
-        fillTable('tablaGeneralTable', dataGeneral, ['jugador', 'jj', 'g', 'e', 'p', 'pts', 'porcentual']);
-        fillTable('tablaTitulosTable', dataTitulos, ['jugador', 'lig', 'cup', 'total']);
-        fillTable('tablaCampeonesTable', dataCampeones, ['edicion', 'campeon', 'sede']);
-
-        // Gráfico de puntos
-        const ctxPuntos = document.getElementById('graficoPuntosCanvas').getContext('2d');
-        const chartPuntos = new Chart(ctxPuntos, {
-            type: 'bar',
-            data: {
-                labels: dataGeneral.map(item => item.jugador),
-                datasets: [{
-                    label: 'Puntos',
-                    data: dataGeneral.map(item => item.pts),
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        // Gráfico de victorias, empates y derrotas
-        const ctxResultados = document.getElementById('graficoResultadosCanvas').getContext('2d');
-        const chartResultados = new Chart(ctxResultados, {
-            type: 'bar',
-            data: {
-                labels: dataGeneral.map(item => item.jugador),
-                datasets: [
-                    {
-                        label: 'Victorias',
-                        data: dataGeneral.map(item => item.g),
-                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Empates',
-                        data: dataGeneral.map(item => item.e),
-                        backgroundColor: 'rgba(255, 206, 86, 0.6)',
-                        borderColor: 'rgba(255, 206, 86, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Derrotas',
-                        data: dataGeneral.map(item => item.p),
-                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
-                    }
-                ]
-            },
-            options: {
-                scales: {
-                    x: {
-                        stacked: true,
-                    },
-                    y: {
-                        stacked: true,
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
         // Botón para cambiar modo oscuro/claro
         const toggleModo = document.getElementById('toggleModo');
         toggleModo.addEventListener('click', () => {
@@ -418,14 +240,6 @@
             } else {
                 toggleModo.textContent = 'Cambiar a modo claro';
             }
-        });
-
-        // Menú desplegable
-        const menuButton = document.getElementById('menuButton');
-        const menu = document.getElementById('menu');
-
-        menuButton.addEventListener('click', () => {
-            menu.classList.toggle('active');
         });
     </script>
 
