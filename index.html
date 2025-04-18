@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Liga de FIFA - Estadísticas, resultados e historial de campeones">
     <title>Liga de FIFA</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/chart.js" as="script">
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -86,7 +88,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .menu-button {
-            display: none; /* Ocultar el botón en pantallas grandes */
+            display: none;
             background-color: #1e90ff;
             color: #fff;
             border: none;
@@ -95,9 +97,14 @@
             cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s;
+            width: 100%;
+            text-align: center;
         }
         .menu-button:hover {
             background-color: #1c86ee;
+        }
+        .menu-button:focus {
+            outline: 2px solid #fff;
         }
         nav ul {
             list-style: none;
@@ -128,23 +135,68 @@
             background-color: rgba(255, 255, 255, 0.2);
         }
 
+        /* Estilos para gráficos */
+        .chart-container {
+            margin-bottom: 40px;
+            background-color: #1c1c1e;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            min-height: 300px;
+        }
+
+        /* Estilos para botones */
+        #toggleModo {
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin: 20px auto;
+            display: block;
+        }
+        #toggleModo:hover {
+            background-color: #1c86ee;
+            transform: scale(1.05);
+        }
+        #toggleModo:focus {
+            outline: 2px solid #fff;
+        }
+
         /* Estilos para pantallas pequeñas */
         @media (max-width: 768px) {
             .menu-button {
-                display: block; /* Mostrar el botón en pantallas pequeñas */
-                width: 100%;
-                text-align: center;
+                display: block;
             }
             nav ul {
-                display: none; /* Ocultar el menú en pantallas pequeñas */
+                display: none;
                 flex-direction: column;
                 gap: 5px;
             }
             nav ul.active {
-                display: flex; /* Mostrar el menú cuando está activo */
+                display: flex;
+            }
+            .chart-wrapper {
+                height: 300px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            h2 {
+                font-size: 1.5em;
             }
         }
 
+        /* Modo claro */
         .modo-claro {
             background-color: #fff;
             color: #000;
@@ -164,6 +216,19 @@
         .modo-claro tr:hover {
             background-color: #ddd;
         }
+        .modo-claro .chart-container {
+            background-color: #f9f9f9;
+        }
+        .modo-claro nav {
+            background-color: #1e90ff;
+        }
+        .modo-claro #toggleModo {
+            background-color: #2c3e50;
+            color: white;
+        }
+        .modo-claro #toggleModo:hover {
+            background-color: #1a2b3a;
+        }
         footer {
             text-align: center;
             margin-top: 40px;
@@ -171,21 +236,25 @@
             background-color: #2c3e50;
             color: #fff;
             border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        .modo-claro footer {
+            background-color: #1e90ff;
         }
     </style>
 </head>
 <body>
 
     <!-- Barra de navegación con menú desplegable -->
-    <nav>
-        <button class="menu-button" id="menuButton">☰ Menú</button>
+    <nav aria-label="Navegación principal">
+        <button class="menu-button" id="menuButton" aria-expanded="false" aria-controls="menu">☰ Menú</button>
         <ul id="menu">
             <li><a href="#tablaGeneral">Tabla General</a></li>
             <li><a href="#tablaTitulos">Títulos</a></li>
             <li><a href="#tablaCampeones">Historial de Campeones</a></li>
             <li><a href="#graficoPuntos">Gráfico de Puntos</a></li>
             <li><a href="#graficoResultados">Gráfico de Resultados</a></li>
-            <li><a href="sala_de_records.html">Sala de Récords</a></li> <!-- Nuevo enlace -->
+            <li><a href="sala_de_records.html">Sala de Récords</a></li>
         </ul>
     </nav>
 
@@ -248,21 +317,23 @@
     </div>
 
     <!-- Gráfico de puntos -->
-    <div>
+    <div class="chart-container">
         <h2 id="graficoPuntos">Gráfico de Puntos</h2>
-        <canvas id="graficoPuntosCanvas"></canvas>
+        <div class="chart-wrapper">
+            <canvas id="graficoPuntosCanvas" aria-label="Gráfico de puntos por jugador" role="img"></canvas>
+        </div>
     </div>
 
     <!-- Gráfico de victorias, empates y derrotas -->
-    <div>
+    <div class="chart-container">
         <h2 id="graficoResultados">Victorias, Empates y Derrotas</h2>
-        <canvas id="graficoResultadosCanvas"></canvas>
+        <div class="chart-wrapper">
+            <canvas id="graficoResultadosCanvas" aria-label="Gráfico de resultados por jugador" role="img"></canvas>
+        </div>
     </div>
 
     <!-- Botón para cambiar modo -->
-    <div style="text-align: center; margin-top: 20px;">
-        <button id="toggleModo">Cambiar a modo claro</button>
-    </div>
+    <button id="toggleModo" aria-label="Cambiar modo de color">Cambiar a modo claro</button>
 
     <!-- Pie de página -->
     <footer>
@@ -321,13 +392,18 @@
             const table = document.getElementById(tableId);
             const tbody = table.querySelector('tbody');
 
+            if (!table || !tbody) {
+                console.error(`No se encontró la tabla con ID ${tableId}`);
+                return;
+            }
+
             data.forEach(item => {
                 const row = document.createElement('tr');
                 columns.forEach(column => {
                     const cell = document.createElement('td');
                     if (column === 'jugador' || column === 'campeon') {
                         const link = document.createElement('a');
-                        link.href = `informacion_${item[column].toLowerCase()}.html`; // Enlace a la página personal
+                        link.href = `informacion_${item[column].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}.html`;
                         link.textContent = item[column];
                         cell.appendChild(link);
                     } else {
@@ -344,6 +420,71 @@
         fillTable('tablaTitulosTable', dataTitulos, ['jugador', 'lig', 'cup', 'total']);
         fillTable('tablaCampeonesTable', dataCampeones, ['edicion', 'campeon', 'sede']);
 
+        // Configuración común para gráficos
+        const getChartColors = () => {
+            const isLightMode = document.body.classList.contains('modo-claro');
+            return {
+                textColor: isLightMode ? '#000' : '#fff',
+                gridColor: isLightMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)',
+                pointBackground: isLightMode ? 'rgba(75, 192, 192, 0.8)' : 'rgba(75, 192, 192, 0.6)',
+                pointBorder: isLightMode ? 'rgba(75, 192, 192, 1)' : 'rgba(75, 192, 192, 1)',
+                winBackground: isLightMode ? 'rgba(75, 192, 192, 0.8)' : 'rgba(75, 192, 192, 0.6)',
+                drawBackground: isLightMode ? 'rgba(255, 206, 86, 0.8)' : 'rgba(255, 206, 86, 0.6)',
+                loseBackground: isLightMode ? 'rgba(255, 99, 132, 0.8)' : 'rgba(255, 99, 132, 0.6)'
+            };
+        };
+
+        const chartOptions = (isStacked = false) => {
+            const colors = getChartColors();
+            return {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        backgroundColor: document.body.classList.contains('modo-claro') ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.9)',
+                        titleColor: colors.textColor,
+                        bodyColor: colors.textColor
+                    },
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: colors.textColor,
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        stacked: isStacked,
+                        ticks: {
+                            color: colors.textColor
+                        },
+                        grid: {
+                            color: colors.gridColor
+                        }
+                    },
+                    x: {
+                        stacked: isStacked,
+                        ticks: {
+                            color: colors.textColor
+                        },
+                        grid: {
+                            color: colors.gridColor
+                        }
+                    }
+                },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutQuart'
+                }
+            };
+        };
+
         // Gráfico de puntos
         const ctxPuntos = document.getElementById('graficoPuntosCanvas').getContext('2d');
         const chartPuntos = new Chart(ctxPuntos, {
@@ -353,18 +494,13 @@
                 datasets: [{
                     label: 'Puntos',
                     data: dataGeneral.map(item => item.pts),
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
+                    backgroundColor: getChartColors().pointBackground,
+                    borderColor: getChartColors().pointBorder,
+                    borderWidth: 1,
+                    borderRadius: 4
                 }]
             },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
+            options: chartOptions()
         });
 
         // Gráfico de victorias, empates y derrotas
@@ -377,38 +513,53 @@
                     {
                         label: 'Victorias',
                         data: dataGeneral.map(item => item.g),
-                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        backgroundColor: getChartColors().winBackground,
                         borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
+                        borderWidth: 1,
+                        borderRadius: 4
                     },
                     {
                         label: 'Empates',
                         data: dataGeneral.map(item => item.e),
-                        backgroundColor: 'rgba(255, 206, 86, 0.6)',
+                        backgroundColor: getChartColors().drawBackground,
                         borderColor: 'rgba(255, 206, 86, 1)',
-                        borderWidth: 1
+                        borderWidth: 1,
+                        borderRadius: 4
                     },
                     {
                         label: 'Derrotas',
                         data: dataGeneral.map(item => item.p),
-                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                        backgroundColor: getChartColors().loseBackground,
                         borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
+                        borderWidth: 1,
+                        borderRadius: 4
                     }
                 ]
             },
-            options: {
-                scales: {
-                    x: {
-                        stacked: true,
-                    },
-                    y: {
-                        stacked: true,
-                        beginAtZero: true
-                    }
-                }
-            }
+            options: chartOptions(true)
         });
+
+        // Función para actualizar colores de gráficos
+        const updateChartColors = () => {
+            const colors = getChartColors();
+            
+            // Actualizar gráfico de puntos
+            chartPuntos.data.datasets[0].backgroundColor = colors.pointBackground;
+            chartPuntos.data.datasets[0].borderColor = colors.pointBorder;
+            
+            // Actualizar gráfico de resultados
+            chartResultados.data.datasets[0].backgroundColor = colors.winBackground;
+            chartResultados.data.datasets[1].backgroundColor = colors.drawBackground;
+            chartResultados.data.datasets[2].backgroundColor = colors.loseBackground;
+            
+            // Actualizar opciones
+            chartPuntos.options = chartOptions();
+            chartResultados.options = chartOptions(true);
+            
+            // Actualizar gráficos
+            chartPuntos.update();
+            chartResultados.update();
+        };
 
         // Botón para cambiar modo oscuro/claro
         const toggleModo = document.getElementById('toggleModo');
@@ -416,9 +567,12 @@
             document.body.classList.toggle('modo-claro');
             if (document.body.classList.contains('modo-claro')) {
                 toggleModo.textContent = 'Cambiar a modo oscuro';
+                toggleModo.setAttribute('aria-label', 'Cambiar a modo oscuro');
             } else {
                 toggleModo.textContent = 'Cambiar a modo claro';
+                toggleModo.setAttribute('aria-label', 'Cambiar a modo claro');
             }
+            updateChartColors();
         });
 
         // Menú desplegable
@@ -426,9 +580,26 @@
         const menu = document.getElementById('menu');
 
         menuButton.addEventListener('click', () => {
+            const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+            menuButton.setAttribute('aria-expanded', !isExpanded);
             menu.classList.toggle('active');
         });
-    </script>
 
+        // Cerrar menú al hacer clic en un enlace (para móviles)
+        document.querySelectorAll('#menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    menu.classList.remove('active');
+                    menuButton.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+
+        // Hacer gráficos responsivos al redimensionar
+        window.addEventListener('resize', function() {
+            chartPuntos.resize();
+            chartResultados.resize();
+        });
+    </script>
 </body>
 </html>
