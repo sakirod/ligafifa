@@ -323,7 +323,6 @@
                     <th>LIGA</th>
                     <th>COPA</th>
                     <th>Total Títulos</th>
-                    <th>% Éxito</th>
                 </tr>
             </thead>
             <tbody>
@@ -341,7 +340,6 @@
                     <th>Edición</th>
                     <th>Campeón</th>
                     <th>Sede</th>
-                    <th>Tipo</th>
                 </tr>
             </thead>
             <tbody>
@@ -398,36 +396,36 @@
 
         // Datos de la tabla de títulos
         const dataTitulos = [
-            { jugador: "Darío", lig: 7, cup: 8, total: 15, porcentajeExito: 78.9 },
-            { jugador: "Isaac", lig: 6, cup: 6, total: 12, porcentajeExito: 63.2 },
-            { jugador: "Irvin", lig: 4, cup: 2, total: 6, porcentajeExito: 31.6 },
-            { jugador: "Mercado", lig: 1, cup: 2, total: 3, porcentajeExito: 15.8 },
-            { jugador: "Pingo", lig: 1, cup: 0, total: 1, porcentajeExito: 5.3 },
-            { jugador: "Rubén", lig: 0, cup: 4, total: 4, porcentajeExito: 21.1 },
-            { jugador: "Taylor", lig: 0, cup: 0, total: 0, porcentajeExito: 0 }
+            { jugador: "Darío", lig: 7, cup: 8, total: 15},
+            { jugador: "Isaac", lig: 6, cup: 6, total: 12},
+            { jugador: "Irvin", lig: 4, cup: 2, total: 6},
+            { jugador: "Mercado", lig: 1, cup: 2, total: 3},
+            { jugador: "Pingo", lig: 1, cup: 0, total: 1},
+            { jugador: "Rubén", lig: 0, cup: 4, total: 4},
+            { jugador: "Taylor", lig: 0, cup: 0, total: 0}
         ];
 
         // Datos del historial de campeones
         const dataCampeones = [
-            { edicion: "I", campeon: "Isaac", sede: "Casa Taylor", tipo: "Liga" },
-            { edicion: "II", campeon: "Darío", sede: "El Nido", tipo: "Copa" },
-            { edicion: "III", campeon: "Isaac", sede: "El Nido", tipo: "Liga" },
-            { edicion: "IV", campeon: "Isaac", sede: "Casa Rubis", tipo: "Copa" },
-            { edicion: "V", campeon: "Darío", sede: "Casa Rubis", tipo: "Liga" },
-            { edicion: "VI", campeon: "Mercado", sede: "El Nido", tipo: "Copa" },
-            { edicion: "VII", campeon: "Darío", sede: "El Nido", tipo: "Liga" },
-            { edicion: "VIII", campeon: "Irvin", sede: "El Nido", tipo: "Copa" },
-            { edicion: "IX", campeon: "Darío", sede: "El Nido", tipo: "Liga" },
-            { edicion: "X", campeon: "Pingo", sede: "Depa Pingo", tipo: "Copa" },
-            { edicion: "XI", campeon: "Darío", sede: "Depa Pingo", tipo: "Liga" },
-            { edicion: "XII", campeon: "Irvin", sede: "Casa Taylor", tipo: "Copa" },
-            { edicion: "XIII", campeon: "Isaac", sede: "El Nido", tipo: "Liga" },
-            { edicion: "XIV", campeon: "Isaac", sede: "El Nido", tipo: "Copa" },
-            { edicion: "XV", campeon: "Irvin", sede: "Depa Rubén", tipo: "Liga" },
-            { edicion: "XVI", campeon: "Irvin", sede: "El Nido", tipo: "Copa" },
-            { edicion: "XVII", campeon: "Darío", sede: "El Nido", tipo: "Liga" },
-            { edicion: "XVIII", campeon: "Darío", sede: "Depa Rubén", tipo: "Copa"},
-            { edicion: "XIX", campeon: "Isaac", sede: "Depa Rubén", tipo: "Liga"}
+            { edicion: "I", campeon: "Isaac", sede: "Casa Taylor"},
+            { edicion: "II", campeon: "Darío", sede: "El Nido"},
+            { edicion: "III", campeon: "Isaac", sede: "El Nido"},
+            { edicion: "IV", campeon: "Isaac", sede: "Casa Rubis"},
+            { edicion: "V", campeon: "Darío", sede: "Casa Rubis"},
+            { edicion: "VI", campeon: "Mercado", sede: "El Nido"},
+            { edicion: "VII", campeon: "Darío", sede: "El Nido"},
+            { edicion: "VIII", campeon: "Irvin", sede: "El Nido"},
+            { edicion: "IX", campeon: "Darío", sede: "El Nido"},
+            { edicion: "X", campeon: "Pingo", sede: "Depa Pingo"},
+            { edicion: "XI", campeon: "Darío", sede: "Depa Pingo"},
+            { edicion: "XII", campeon: "Irvin", sede: "Casa Taylor"},
+            { edicion: "XIII", campeon: "Isaac", sede: "El Nido"},
+            { edicion: "XIV", campeon: "Isaac", sede: "El Nido"},
+            { edicion: "XV", campeon: "Irvin", sede: "Depa Rubén"},
+            { edicion: "XVI", campeon: "Irvin", sede: "El Nido"},
+            { edicion: "XVII", campeon: "Darío", sede: "El Nido"},
+            { edicion: "XVIII", campeon: "Darío", sede: "Depa Rubén"},
+            { edicion: "XIX", campeon: "Isaac", sede: "Depa Rubén"}
         ];
 
         // Función para llenar una tabla con datos
@@ -462,8 +460,8 @@
 
         // Llenar las tablas con los datos
         fillTable('tablaGeneralTable', dataGeneral, ['jugador', 'jj', 'g', 'e', 'p', 'pts', 'porcentual']);
-        fillTable('tablaTitulosTable', dataTitulos, ['jugador', 'lig', 'cup', 'total', 'porcentajeExito']);
-        fillTable('tablaCampeonesTable', dataCampeones, ['edicion', 'campeon', 'sede', 'tipo']);
+        fillTable('tablaTitulosTable', dataTitulos, ['jugador', 'lig', 'cup', 'total']);
+        fillTable('tablaCampeonesTable', dataCampeones, ['edicion', 'campeon', 'sede']);
 
         // Configuración común para gráficos
         const getChartColors = () => {
