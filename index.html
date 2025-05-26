@@ -286,6 +286,7 @@
             <li><a href="#graficoPuntos">Gráfico de Puntos</a></li>
             <li><a href="#graficoResultados">Gráfico de Resultados</a></li>
             <li><a href="#graficoTitulos">Distribución de Títulos</a></li>
+            <li><a href="#graficoEquipos">Títulos por Equipo</a></li>
             <li><a href="sala_de_records.html">Sala de Récords</a></li>
         </ul>
     </nav>
@@ -365,11 +366,19 @@
         </div>
     </div>
 
-    <!-- Nuevo gráfico: Distribución de títulos -->
+    <!-- Gráfico de distribución de títulos -->
     <div class="chart-container">
         <h2 id="graficoTitulos">Distribución de Títulos</h2>
         <div class="chart-wrapper">
             <canvas id="graficoTitulosCanvas" aria-label="Gráfico de distribución de títulos" role="img"></canvas>
+        </div>
+    </div>
+
+    <!-- Nuevo gráfico: Títulos por equipo -->
+    <div class="chart-container">
+        <h2 id="graficoEquipos">Títulos por Equipo</h2>
+        <div class="chart-wrapper">
+            <canvas id="graficoEquiposCanvas" aria-label="Gráfico de títulos por equipo" role="img"></canvas>
         </div>
     </div>
 
@@ -478,7 +487,15 @@
                 drawBackground: isLightMode ? 'rgba(255, 206, 86, 0.8)' : 'rgba(255, 206, 86, 0.6)',
                 loseBackground: isLightMode ? 'rgba(255, 99, 132, 0.8)' : 'rgba(255, 99, 132, 0.6)',
                 ligBackground: isLightMode ? 'rgba(54, 162, 235, 0.8)' : 'rgba(54, 162, 235, 0.6)',
-                cupBackground: isLightMode ? 'rgba(255, 159, 64, 0.8)' : 'rgba(255, 159, 64, 0.6)'
+                cupBackground: isLightMode ? 'rgba(255, 159, 64, 0.8)' : 'rgba(255, 159, 64, 0.6)',
+                realMadridColor: isLightMode ? 'rgba(255, 99, 132, 0.8)' : 'rgba(255, 255, 255, 1)',
+                liverpoolColor: isLightMode ? 'rgba(54, 162, 235, 0.8)' : 'rgba(255, 0, 0, 1)',
+                barcelonaColor: isLightMode ? 'rgba(255, 206, 86, 0.8)' : 'rgba(128, 0, 0, 1)',
+                interMilanColor: isLightMode ? 'rgba(75, 192, 192, 0.8)' : 'rgba(1, 14, 128, 1)',
+                cityColor: isLightMode ? 'rgba(153, 102, 255, 0.8)' : 'rgba(135, 206, 235, 1)',
+                unitedColor: isLightMode ? 'rgba(54, 162, 235, 0.8)' : 'rgba(255, 0, 0, 1)',
+                italiaColor: isLightMode ? 'rgba(54, 162, 235, 0.8)' : 'rgba(0, 0, 255, 1)',
+                otrosColor: isLightMode ? 'rgba(255, 159, 64, 0.8)' : 'rgba(255, 159, 64, 0.6)'
             };
         };
 
@@ -615,6 +632,93 @@
             options: chartOptions(true)
         });
 
+        // Nuevo gráfico: Títulos por equipo
+        const ctxEquipos = document.getElementById('graficoEquiposCanvas').getContext('2d');
+        
+        // Contar títulos por equipo
+        const titulosPorEquipo = {};
+        dataCampeones.forEach(edicion => {
+            const equipo = edicion.equipo;
+            titulosPorEquipo[equipo] = (titulosPorEquipo[equipo] || 0) + 1;
+        });
+        
+        // Ordenar equipos por número de títulos (de mayor a menor)
+        const equiposOrdenados = Object.keys(titulosPorEquipo).sort((a, b) => titulosPorEquipo[b] - titulosPorEquipo[a]);
+        
+        // Preparar datos para el gráfico
+        const labelsEquipos = equiposOrdenados;
+        const dataEquipos = equiposOrdenados.map(equipo => titulosPorEquipo[equipo]);
+        
+        // Asignar colores específicos a los equipos principales
+        const getTeamColor = (equipo) => {
+            const colors = getChartColors();
+            if (equipo.includes("Real Madrid")) return colors.realMadridColor;
+            if (equipo.includes("Liverpool")) return colors.liverpoolColor;
+            if (equipo.includes("Barcelona")) return colors.barcelonaColor;
+            if (equipo.includes("Inter Milan")) return colors.interMilanColor;
+            if (equipo.includes("Manchester City")) return colors.cityColor;
+            if (equipo.includes("Manchester United")) return colors.unitedColor;
+            if (equipo.includes("Italia")) return colors.italiaColor;
+            return colors.otrosColor;
+        };
+        
+        const backgroundColorsEquipos = equiposOrdenados.map(equipo => getTeamColor(equipo));
+        
+        const chartEquipos = new Chart(ctxEquipos, {
+            type: 'bar',
+            data: {
+                labels: labelsEquipos,
+                datasets: [{
+                    label: 'Títulos ganados',
+                    data: dataEquipos,
+                    backgroundColor: backgroundColorsEquipos,
+                    borderColor: backgroundColorsEquipos.map(color => color.replace('0.6', '1').replace('0.8', '1')),
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                ...chartOptions(),
+                plugins: {
+                    ...chartOptions().plugins,
+                    tooltip: {
+                        ...chartOptions().plugins.tooltip,
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.dataset.label || '';
+                                const value = context.raw;
+                                return `${label}: ${value} título${value !== 1 ? 's' : ''}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: getChartColors().textColor,
+                            callback: function(value) {
+                                if (value % 1 === 0) {
+                                    return value;
+                                }
+                            }
+                        },
+                        grid: {
+                            color: getChartColors().gridColor
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: getChartColors().textColor
+                        },
+                        grid: {
+                            color: getChartColors().gridColor
+                        }
+                    }
+                }
+            }
+        });
+
         // Función para actualizar colores de gráficos
         const updateChartColors = () => {
             const colors = getChartColors();
@@ -632,15 +736,25 @@
             chartTitulos.data.datasets[0].backgroundColor = colors.ligBackground;
             chartTitulos.data.datasets[1].backgroundColor = colors.cupBackground;
             
+            // Actualizar gráfico de equipos
+            chartEquipos.data.datasets[0].backgroundColor = chartEquipos.data.labels.map(equipo => getTeamColor(equipo));
+            chartEquipos.data.datasets[0].borderColor = chartEquipos.data.labels.map(equipo => 
+                getTeamColor(equipo).replace('0.6', '1').replace('0.8', '1'));
+            
             // Actualizar opciones
             chartPuntos.options = chartOptions();
             chartResultados.options = chartOptions(true);
             chartTitulos.options = chartOptions(true);
+            chartEquipos.options.scales.y.ticks.color = colors.textColor;
+            chartEquipos.options.scales.y.grid.color = colors.gridColor;
+            chartEquipos.options.scales.x.ticks.color = colors.textColor;
+            chartEquipos.options.scales.x.grid.color = colors.gridColor;
             
             // Actualizar gráficos
             chartPuntos.update();
             chartResultados.update();
             chartTitulos.update();
+            chartEquipos.update();
         };
 
         // Botón para cambiar modo oscuro/claro
@@ -682,6 +796,7 @@
             chartPuntos.resize();
             chartResultados.resize();
             chartTitulos.resize();
+            chartEquipos.resize();
         });
 
         // Fecha de actualización
