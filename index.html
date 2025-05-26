@@ -339,6 +339,7 @@
                 <tr>
                     <th>Edición</th>
                     <th>Campeón</th>
+                    <th>Equipo</th>
                     <th>Sede</th>
                 </tr>
             </thead>
@@ -407,27 +408,27 @@
 
         // Datos del historial de campeones
         const dataCampeones = [
-            { edicion: "I", campeon: "Isaac", sede: "Casa Taylor"},
-            { edicion: "II", campeon: "Darío", sede: "El Nido"},
-            { edicion: "III", campeon: "Isaac", sede: "El Nido"},
-            { edicion: "IV", campeon: "Isaac", sede: "Casa Rubis"},
-            { edicion: "V", campeon: "Darío", sede: "Casa Rubis"},
-            { edicion: "VI", campeon: "Mercado", sede: "El Nido"},
-            { edicion: "VII", campeon: "Darío", sede: "El Nido"},
-            { edicion: "VIII", campeon: "Irvin", sede: "El Nido"},
-            { edicion: "IX", campeon: "Darío", sede: "El Nido"},
-            { edicion: "X", campeon: "Pingo", sede: "Depa Pingo"},
-            { edicion: "XI", campeon: "Darío", sede: "Depa Pingo"},
-            { edicion: "XII", campeon: "Irvin", sede: "Casa Taylor"},
-            { edicion: "XIII", campeon: "Isaac", sede: "El Nido"},
-            { edicion: "XIV", campeon: "Isaac", sede: "El Nido"},
-            { edicion: "XV", campeon: "Irvin", sede: "Depa Rubén"},
-            { edicion: "XVI", campeon: "Irvin", sede: "El Nido"},
-            { edicion: "XVII", campeon: "Darío", sede: "El Nido"},
-            { edicion: "XVIII", campeon: "Darío", sede: "Depa Rubén"},
-            { edicion: "XIX", campeon: "Isaac", sede: "Depa Rubén"},
-            { edicion: "XX", campeon: "Rubén", sede: "Depa Rubén"},
-            { edicion: "XXI", campeon: "Mercado", sede: "El Nido"}
+            { edicion: "I", campeon: "Isaac", equipo: "Italia🇮🇹", sede: "Casa Taylor"},
+            { edicion: "II", campeon: "Darío", equipo: "España🇪🇸", sede: "El Nido"},
+            { edicion: "III", campeon: "Isaac", equipo: "Manchester City🏴󠁧󠁢󠁥󠁮󠁧󠁿", sede: "El Nido"},
+            { edicion: "IV", campeon: "Isaac", equipo: "Paris Saint Germain🇫🇷", sede: "Casa Rubis"},
+            { edicion: "V", campeon: "Darío", equipo: "Liverpool🏴󠁧󠁢󠁥󠁮󠁧󠁿", sede: "Casa Rubis"},
+            { edicion: "VI", campeon: "Mercado", equipo: "Barcelona🇪🇸", sede: "El Nido"},
+            { edicion: "VII", campeon: "Darío", equipo: "Liverpool🏴󠁧󠁢󠁥󠁮󠁧󠁿", sede: "El Nido"},
+            { edicion: "VIII", campeon: "Irvin", equipo: "Real Madrid🇪🇸", sede: "El Nido"},
+            { edicion: "IX", campeon: "Darío", equipo: "Liverpool🏴󠁧󠁢󠁥󠁮󠁧󠁿", sede: "El Nido"},
+            { edicion: "X", campeon: "Pingo", equipo: "Real Madrid🇪🇸", sede: "Depa Pingo"},
+            { edicion: "XI", campeon: "Darío", equipo: "Liverpool🏴󠁧󠁢󠁥󠁮󠁧󠁿", sede: "Depa Pingo"},
+            { edicion: "XII", campeon: "Irvin", equipo: "Real Madrid🇪🇸", sede: "Casa Taylor"},
+            { edicion: "XIII", campeon: "Isaac", equipo: "Manchester United🏴󠁧󠁢󠁥󠁮󠁧󠁿", sede: "El Nido"},
+            { edicion: "XIV", campeon: "Isaac", equipo: "Inter Milan🇮🇹", sede: "El Nido"},
+            { edicion: "XV", campeon: "Irvin", equipo: "Real Madrid🇪🇸", sede: "Depa Rubén"},
+            { edicion: "XVI", campeon: "Irvin", equipo: "Real Madrid🇪🇸", sede: "El Nido"},
+            { edicion: "XVII", campeon: "Darío", equipo: "Atlético de Madrid🇪🇸", sede: "El Nido"},
+            { edicion: "XVIII", campeon: "Darío", equipo: "Real Madrid🇪🇸", sede: "Depa Rubén"},
+            { edicion: "XIX", campeon: "Isaac", equipo: "Inter Milan🇮🇹", sede: "Depa Rubén"},
+            { edicion: "XX", campeon: "Rubén", equipo: "Athletic Bilbao🇪🇸", sede: "Depa Rubén"},
+            { edicion: "XXI", campeon: "Mercado", equipo: "Barcelona🇪🇸", sede: "El Nido"}
         ];
 
         // Función para llenar una tabla con datos
@@ -463,7 +464,7 @@
         // Llenar las tablas con los datos
         fillTable('tablaGeneralTable', dataGeneral, ['jugador', 'jj', 'g', 'e', 'p', 'pts', 'porcentual']);
         fillTable('tablaTitulosTable', dataTitulos, ['jugador', 'lig', 'cup', 'total']);
-        fillTable('tablaCampeonesTable', dataCampeones, ['edicion', 'campeon', 'sede']);
+        fillTable('tablaCampeonesTable', dataCampeones, ['edicion', 'campeon', 'equipo', 'sede']);
 
         // Configuración común para gráficos
         const getChartColors = () => {
