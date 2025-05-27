@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Reglamento oficial del torneo de FIFA">
+    <title>Liga de FIFA - Reglamento</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/chart.js" as="script">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #000;
+            color: #fff;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        h1, h2, h3 {
+            color: #fff;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        h2 {
+            font-size: 2em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: #1e90ff;
+            border-bottom: 2px solid #1e90ff;
+            padding-bottom: 8px;
+        }
+        h3 {
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        .reglamento-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #1c1c1e;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        .reglamento-container:hover {
+            transform: scale(1.005);
+        }
+        p, li {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        ul, ol {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #1e90ff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilos para el menú desplegable */
+        nav {
+            background-color: #2c3e50;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .menu-button {
+            display: none;
+            background-color: #1e90ff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            width: 100%;
+            text-align: center;
+        }
+        .menu-button:hover {
+            background-color: #1c86ee;
+        }
+        .menu-button:focus {
+            outline: 2px solid #fff;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        nav ul li {
+            margin: 0;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            text-decoration: none;
+        }
+        nav ul li a:active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Botón para cambiar modo */
+        #toggleModo {
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin: 20px auto;
+            display: block;
+        }
+        #toggleModo:hover {
+            background-color: #1c86ee;
+            transform: scale(1.05);
+        }
+        #toggleModo:focus {
+            outline: 2px solid #fff;
+        }
+
+        /* Estilos para pantallas pequeñas */
+        @media (max-width: 768px) {
+            .menu-button {
+                display: block;
+            }
+            nav ul {
+                display: none;
+                flex-direction: column;
+                gap: 5px;
+            }
+            nav ul.active {
+                display: flex;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+            .reglamento-container {
+                padding: 20px;
+            }
+        }
+
+        /* Modo claro */
+        .modo-claro {
+            background-color: #fff;
+            color: #000;
+        }
+        .modo-claro h1,
+        .modo-claro h2,
+        .modo-claro h3 {
+            color: #000;
+        }
+        .modo-claro h2 {
+            color: #2c3e50;
+            border-bottom-color: #2c3e50;
+        }
+        .modo-claro .reglamento-container {
+            background-color: #f9f9f9;
+            color: #000;
+        }
+        .modo-claro nav {
+            background-color: #1e90ff;
+        }
+        .modo-claro #toggleModo {
+            background-color: #2c3e50;
+            color: white;
+        }
+        .modo-claro #toggleModo:hover {
+            background-color: #1a2b3a;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: #fff;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        .modo-claro footer {
+            background-color: #1e90ff;
+        }
+        
+        /* Estilos para secciones especiales */
+        .nota-importante {
+            background-color: rgba(255, 99, 132, 0.2);
+            border-left: 4px solid #ff6384;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .modo-claro .nota-importante {
+            background-color: rgba(255, 99, 132, 0.1);
+        }
+        
+        .consejo {
+            background-color: rgba(75, 192, 192, 0.2);
+            border-left: 4px solid #4bc0c0;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .modo-claro .consejo {
+            background-color: rgba(75, 192, 192, 0.1);
+        }
+
+        /* Botón de volver */
+        .volver-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .boton-volver {
+            display: inline-block;
+            background-color: #1e90ff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .boton-volver:hover {
+            background-color: #1c86ee;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .modo-claro .boton-volver {
+            background-color: #2c3e50;
+        }
+        .modo-claro .boton-volver:hover {
+            background-color: #1a2b3a;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra de navegación con menú desplegable - Actualizada para incluir enlace a principal -->
+    <nav aria-label="Navegación principal">
+        <button class="menu-button" id="menuButton" aria-expanded="false" aria-controls="menu">☰ Menú</button>
+        <ul id="menu">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="#formato">Formato</a></li>
+            <li><a href="#equipos">Equipos</a></li>
+            <li><a href="#puntuacion">Puntuación</a></li>
+            <li><a href="#reglas">Reglas</a></li>
+            <li><a href="#premios">Premios</a></li>
+            <li><a href="#sanciones">Sanciones</a></li>
+            <li><a href="reglamento.html">Reglamento</a></li>
+            <li><a href="sala_de_records.html">Sala de Récords</a></li>
+        </ul>
+    </nav>
+
+    <h1>Reglamento del Torneo</h1>
+
+    <!-- Botón para volver a la página principal -->
+    <div class="volver-container">
+        <a href="index.html" class="boton-volver">← Volver a la página principal</a>
+    </div>
+
+    <div class="reglamento-container">
+        <section id="formato">
+            <h2>Formato del Torneo</h2>
+            <p>El torneo de FIFA se desarrolla bajo el siguiente formato:</p>
+            <ul>
+                <li><strong>Torneo regular:</strong> En la fase regular se observa el sistema de puntos. En esta fase participarán mínimo 5 jugadores para la realización de la liga, jugando en cada torneo todos contra todos a un solo partido (el número de jornadas depende del número de participantes).</li>
+                <li>Se clasificarán a la liguilla los 4 jugadores con más puntos en la tabla de la fase regular.</li>
+                <li><strong>Fase eliminatoria:</strong> Los 4 clasificados jugarán 1 partido de eliminación directa de la siguiente manera: 1° vs 4° y 2° vs 3°. Si se mantiene el empate al termino de los 90 minutos se procederá a la tanda de penales (sólo en liga).</li>
+                <li><strong>Final:</strong> Partido único entre los dos mejores jugadores para determinar al campeón. Si se mantiene el empate al termino de los 90 minutos se procederá a la tanda de penales (sólo en liga).</li>
+            </ul>
+        </section>
+
+        <section id="equipos">
+            <h2>Selección de Equipos</h2>
+            <p>Las reglas para la selección de equipos son las siguientes:</p>
+            <ol>
+                <li>Cada jugador selecciona un equipo al inicio del torneo.</li>
+                <li>Los equipos se eligen por orden de la clasificación del torneo anteriomente celebrado.</li>
+                <li>Se permite cambiar de equipo solo entre el tiempo de una liga a otra.</li>
+                <li>Los equipos son de elección libre dependiendo del proyecto de cada jugador (El Real Madrid está baneado hasta nuevo aviso).</li>
+            </ol>
+            
+        </section>
+
+        <section id="puntuacion">
+            <h2>Sistema de Puntuación</h2>
+            <p>Los puntos se otorgan de la siguiente manera:</p>
+            <ul>
+                <li><strong>Victoria:</strong> 3 puntos</li>
+                <li><strong>Empate:</strong> 1 punto</li>
+                <li><strong>Derrota:</strong> 0 puntos</li>
+            </ul>
+            <p>En caso de empate en puntos al final de la temporada, se consideran los siguientes criterios:</p>
+            <ol>
+                <li>Diferencia de goles</li>
+                <li>Goles a favor</li>
+                <li>Resultados entre los jugadores empatados</li>
+                <li>Mayor número de victorias</li>
+            </ol>
+        </section>
+
+        <section id="reglas">
+            <h2>Reglas de Juego</h2>
+            <h3>Configuración del partido</h3>
+            <ul>
+                <li>Duración: 3 minutos por tiempo (6 minutos total)</li>
+                <li>Lesiones: Activadas</li>
+                <li>Tarjetas: Activadas</li>
+                <li>Fuera de juego: Activado</li>
+                <li>Manos: Desactivado (por maricas).</li>
+            </ul>
+            
+            <h3>Reglas especiales</h3>
+            <ul>
+                <li>Regla del bote: Por definir.</li>
+            </ul>
+        </section>
+
+        <section id="premios">
+            <h2>Premios y Reconocimientos</h2>
+            <p>Al final de cada temporada se otorgan los siguientes premios:</p>
+            <ul>
+                <li><strong>Campeón:</strong> Trofeo digital (próximamente físico) + primer pick de selección de equipo en el próximo torneo.</li>
+                <li><strong>Subcampeón:</strong> Humillación + segundo pick en la selección de equipo en el próximo torneo.</li>
+                <li><strong>Estrellas:</strong> Se le otorgará una estrella al jugador que haya ganado un total de 10 ligas (Una segunda estrella será otorgada al ganar 20 ligas y así sucesivamente).</li>
+            </ul>
+        </section>
+
+        <section id="sanciones">
+            <h2>Sanciones y Disciplina</h2>
+            <p>Las siguientes acciones pueden resultar en sanciones:</p>
+            <ul>
+                <li><strong>Falta de deportividad:</strong> Por definir</li>
+                <li><strong>Incumplimiento de horarios:</strong> Por definir</li>
+                <li><strong>Abandono intencional:</strong> Por definir</li>
+            </ul>
+            
+        </section>
+        
+        <section>
+            <h2>Actualizaciones del Reglamento</h2>
+            <p>Este reglamento puede ser actualizado antes del inicio de cada temporada. Todos los participantes serán notificados de los cambios con al menos un día previo de la celebración del torneo.</p>
+            <p>La versión más reciente del reglamento siempre estará disponible en esta página.</p>
+            <p>Consulta la <a href="index.html">página principal</a> para ver las estadísticas actuales del torneo.</p>
+        </section>
+    </div>
+
+    <!-- Botón para volver a la página principal (abajo también) -->
+    <div class="volver-container">
+        <a href="index.html" class="boton-volver">← Volver a la página principal</a>
+    </div>
+
+    <!-- Botón para cambiar modo -->
+    <button id="toggleModo" aria-label="Cambiar modo de color">Cambiar a modo claro</button>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>© 2025 Liga de FIFA. Todos los derechos reservados.</p>
+        <p>Última actualización del reglamento: <span id="fechaActualizacion"></span></p>
+    </footer>
+
+    <script>
+        // Botón para cambiar modo oscuro/claro
+        const toggleModo = document.getElementById('toggleModo');
+        toggleModo.addEventListener('click', () => {
+            document.body.classList.toggle('modo-claro');
+            if (document.body.classList.contains('modo-claro')) {
+                toggleModo.textContent = 'Cambiar a modo oscuro';
+                toggleModo.setAttribute('aria-label', 'Cambiar a modo oscuro');
+            } else {
+                toggleModo.textContent = 'Cambiar a modo claro';
+                toggleModo.setAttribute('aria-label', 'Cambiar a modo claro');
+            }
+        });
+
+        // Menú desplegable
+        const menuButton = document.getElementById('menuButton');
+        const menu = document.getElementById('menu');
+
+        menuButton.addEventListener('click', () => {
+            const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+            menuButton.setAttribute('aria-expanded', !isExpanded);
+            menu.classList.toggle('active');
+        });
+
+        // Cerrar menú al hacer clic en un enlace (para móviles)
+        document.querySelectorAll('#menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    menu.classList.remove('active');
+                    menuButton.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+
+        // Fecha de actualización
+        document.getElementById('fechaActualizacion').textContent = new Date().toLocaleDateString('es-ES', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+
+        // Cargar el modo guardado (si existe)
+        if (localStorage.getItem('modoClaro') === 'true') {
+            document.body.classList.add('modo-claro');
+            toggleModo.textContent = 'Cambiar a modo oscuro';
+            toggleModo.setAttribute('aria-label', 'Cambiar a modo oscuro');
+        }
+
+        // Guardar preferencia de modo
+        toggleModo.addEventListener('click', () => {
+            localStorage.setItem('modoClaro', document.body.classList.contains('modo-claro'));
+        });
+    </script>
+</body>
+</html>
