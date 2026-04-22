@@ -1,1 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Liga de FIFA - Estadísticas, resultados e historial de campeones">
+    <title>Liga de FIFA</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/chart.js" as="script">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #000;
+            color: #fff;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        h1, h2 {
+            color: #fff;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 2em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+            background-color: #1c1c1e;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, background-color 0.3s;
+        }
+        table:hover {
+            transform: scale(1.02);
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+        th {
+            background-color: #2c3e50;
+            color: #fff;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #2c2c2e;
+        }
+        tr:hover {
+            background-color: #3a3a3c;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        .table-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        .table-container::-webkit-scrollbar-thumb {
+            background-color: #2c3e50;
+            border-radius: 4px;
+        }
+        .table-container::-webkit-scrollbar-track {
+            background-color: #1c1c1e;
+        }
+        a {
+            color: #1e90ff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
 
+        /* Estilos para el menú desplegable */
+        nav {
+            background-color: #2c3e50;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .menu-button {
+            display: none;
+            background-color: #1e90ff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            width: 100%;
+            text-align: center;
+        }
+        .menu-button:hover {
+            background-color: #1c86ee;
+        }
+        .menu-button:focus {
+            outline: 2px solid #fff;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        nav ul li {
+            margin: 0;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            text-decoration: none;
+        }
+        nav ul li a:active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Estilos para gráficos */
+        .chart-container {
+            margin-bottom: 40px;
+            background-color: #1c1c1e;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            min-height: 300px;
+        }
+
+        /* Estilos para botones */
+        #toggleModo {
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin: 20px auto;
+            display: block;
+        }
+        #toggleModo:hover {
+            background-color: #1c86ee;
+            transform: scale(1.05);
+        }
+        #toggleModo:focus {
+            outline: 2px solid #fff;
+        }
+
+        /* Estilos para pantallas pequeñas */
+        @media (max-width: 768px) {
+            .menu-button {
+                display: block;
+            }
+            nav ul {
+                display: none;
+                flex-direction: column;
+                gap: 5px;
+            }
+            nav ul.active {
+                display: flex;
+            }
+            .chart-wrapper {
+                height: 300px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+        }
+
+        /* Modo claro */
+        .modo-claro {
+            background-color: #fff;
+            color: #000;
+        }
+        .modo-claro h1,
+        .modo-claro h2,
+        .modo-claro th {
+            color: #000;
+        }
+        .modo-claro table {
+            background-color: #f9f9f9;
+            color: #000;
+        }
+        .modo-claro tr:nth-child(even) {
+            background-color: #f1f1f1;
+        }
+        .modo-claro tr:hover {
+            background-color: #ddd;
+        }
+        .modo-claro .chart-container {
+            background-color: #f9f9f9;
+        }
+        .modo-claro nav {
+            background-color: #1e90ff;
+        }
+        .modo-claro #toggleModo {
+            background-color: #2c3e50;
+            color: white;
+        }
+        .modo-claro #toggleModo:hover {
+            background-color: #1a2b3a;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: #fff;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        .modo-claro footer {
+            background-color: #1e90ff;
+        }
+        
+        /* Nuevos estilos para secciones añadidas */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .stat-card {
+            background-color: #1c1c1e;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-card h3 {
+            margin-top: 0;
+            color: #1e90ff;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+        .modo-claro .stat-card {
+            background-color: #f9f9f9;
+        }
+        .modo-claro .stat-card h3 {
+            color: #2c3e50;
+            border-bottom-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra de navegación con menú desplegable -->
+    <nav aria-label="Navegación principal">
+        <button class="menu-button" id="menuButton" aria-expanded="false" aria-controls="menu">☰ Menú</button>
+        <ul id="menu">
+            <li><a href="#tablaGeneral">Tabla General</a></li>
+            <li><a href="#tablaTitulos">Títulos</a></li>
+            <li><a href="#tablaCampeones">Historial de Campeones</a></li>
+            <li><a href="#graficoPuntos">Gráfico de Puntos</a></li>
+            <li><a href="#graficoResultados">Gráfico de Resultados</a></li>
+            <li><a href="#graficoTitulos">Distribución de Títulos</a></li>
+            <li><a href="#graficoEquipos">Títulos por Equipo</a></li>
+            <li><a href="reglamento.html">Reglamento</a></li>
+            <li><a href="sala_de_records.html">Sala de Récords</a></li>
+        </ul>
+    </nav>
+
+    <h1>Liga de FIFA</h1>
+
+    <!-- Clausura 2026 -->
+    <div class="table-container">
+        <h2 id="tablaGeneral">Tabla General</h2>
+        <table id="tablaGeneralTable">
+            <thead>
+                <tr>
+                    <th>Jugador</th>
+                    <th>JJ</th>
+                    <th>G</th>
+                    <th>E</th>
+                    <th>P</th>
+                    <th>PTS</th>
+                    <th>Porcentual</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Filas de la tabla -->
+            </tbody>
+        </table>
+    </div>
+
+ 
+ <!-- Títulos -->
+    <div class="table-container">
+        <h2 id="tablaTitulos">Títulos</h2>
+        <table id="tablaTitulosTable">
+            <thead>
+                <tr>
+                    <th>Jugador</th>
+                    <th>LIGA</th>
+                    <th>COPA</th>
+                    <th>Total Títulos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Filas de la tabla -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Historial de Campeones -->
+    <div class="table-container">
+        <h2 id="tablaCampeones">Historial de Campeones</h2>
+        <table id="tablaCampeonesTable">
+            <thead>
+                <tr>
+                    <th>Edición</th>
+                    <th>Campeón</th>
+                    <th>Equipo</th>
+                    <th>Sede</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Filas de la tabla -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Gráfico de puntos -->
+    <div class="chart-container">
+        <h2 id="graficoPuntos">Gráfico de Puntos</h2>
+        <div class="chart-wrapper">
+            <canvas id="graficoPuntosCanvas" aria-label="Gráfico de puntos por jugador" role="img"></canvas>
+        </div>
+    </div>
+
+    <!-- Gráfico de victorias, empates y derrotas -->
+    <div class="chart-container">
+        <h2 id="graficoResultados">Victorias, Empates y Derrotas</h2>
+        <div class="chart-wrapper">
+            <canvas id="graficoResultadosCanvas" aria-label="Gráfico de resultados por jugador" role="img"></canvas>
+        </div>
+    </div>
+
+    <!-- Gráfico de distribución de títulos -->
+    <div class="chart-container">
+        <h2 id="graficoTitulos">Distribución de Títulos</h2>
+        <div class="chart-wrapper">
+            <canvas id="graficoTitulosCanvas" aria-label="Gráfico de distribución de títulos" role="img"></canvas>
+        </div>
+    </div>
+
+    <!-- Nuevo gráfico: Títulos por equipo -->
+    <div class="chart-container">
+        <h2 id="graficoEquipos">Títulos por Equipo</h2>
+        <div class="chart-wrapper">
+            <canvas id="graficoEquiposCanvas" aria-label="Gráfico de títulos por equipo" role="img"></canvas>
+        </div>
+    </div>
+
+    <!-- Botón para cambiar modo -->
+    <button id="toggleModo" aria-label="Cambiar modo de color">Cambiar a modo claro</button>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>© 2025 Liga de FIFA. Todos los derechos reservados.</p>
+        <p>Última actualización: <span id="fechaActualizacion"></span></p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Datos del Clausura 2026
+        const dataGeneral = [
+            { jugador: "Irvin", jj: 98, g: 48, e: 21, p: 29, pts: 165, porcentual: 1.683 },
+            { jugador: "Darío", jj: 101, g: 47, e: 24, p: 27, pts: 165, porcentual: 1.633 },
+            { jugador: "Isaac", jj: 106, g: 45, e: 35, p: 25, pts: 170, porcentual: 1.603 },
+            { jugador: "Rubén", jj: 89, g: 37, e: 20, p: 32, pts: 131, porcentual: 1.471 },
+            { jugador: "Mercado", jj: 93, g: 27, e: 27, p: 40, pts: 108, porcentual: 1.161 },
+            { jugador: "Ochoa", jj: 3, g: 0, e: 3, p: 0, pts: 3, porcentual: 1.000 },
+            { jugador: "Pingo", jj: 27, g: 5, e: 5, p: 22, pts: 20, porcentual: 0.741 },
+            { jugador: "Taylor", jj: 46, g: 6, e: 9, p: 31, pts: 27, porcentual: 0.586 }
+            ];
