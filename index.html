@@ -294,7 +294,7 @@
 
     <h1>Liga de FIFA</h1>
 
-    <!-- Tabla General -->
+    <!-- Tabla Historica -->
     <div class="table-container">
         <h2 id="tablaGeneral">Tabla General</h2>
         <table id="tablaGeneralTable">
@@ -314,6 +314,28 @@
             </tbody>
         </table>
     </div>
+
+    <!-- Clausura 2026 -->
+    <div class="table-container">
+        <h2 id="tablaGeneral">Tabla General</h2>
+        <table id="tablaGeneralTable">
+            <thead>
+                <tr>
+                    <th>Jugador</th>
+                    <th>JJ</th>
+                    <th>G</th>
+                    <th>E</th>
+                    <th>P</th>
+                    <th>PTS</th>
+                    <th>Porcentual</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Filas de la tabla -->
+            </tbody>
+        </table>
+    </div>
+
 
     <!-- Títulos -->
     <div class="table-container">
@@ -394,7 +416,19 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Datos de la tabla general
+        // Datos de la historica
+        const dataGeneral = [
+            { jugador: "Irvin", jj: 98, g: 48, e: 21, p: 29, pts: 165, porcentual: 1.683 },
+            { jugador: "Darío", jj: 101, g: 47, e: 24, p: 27, pts: 165, porcentual: 1.633 },
+            { jugador: "Isaac", jj: 106, g: 45, e: 35, p: 25, pts: 170, porcentual: 1.603 },
+            { jugador: "Rubén", jj: 89, g: 37, e: 20, p: 32, pts: 131, porcentual: 1.471 },
+            { jugador: "Mercado", jj: 93, g: 27, e: 27, p: 40, pts: 108, porcentual: 1.161 },
+            { jugador: "Ochoa", jj: 3, g: 0, e: 3, p: 0, pts: 3, porcentual: 1.000 },
+            { jugador: "Pingo", jj: 27, g: 5, e: 5, p: 22, pts: 20, porcentual: 0.741 },
+            { jugador: "Taylor", jj: 46, g: 6, e: 9, p: 31, pts: 27, porcentual: 0.586 }
+            ];
+
+        // Datos de la tabla Clausura 2026
         const dataGeneral = [
             { jugador: "Irvin", jj: 98, g: 48, e: 21, p: 29, pts: 165, porcentual: 1.683 },
             { jugador: "Darío", jj: 101, g: 47, e: 24, p: 27, pts: 165, porcentual: 1.633 },
