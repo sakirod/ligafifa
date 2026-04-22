@@ -368,6 +368,11 @@
                 tbody.appendChild(row);
             });
         }
+
+        // Llenar las tablas con los datos
+        fillTable('tablaGeneralTable', dataGeneral, ['jugador', 'jj', 'g', 'e', 'p', 'pts', 'porcentual']);
+        fillTable('tablaTitulosTable', dataTitulos, ['jugador', 'lig', 'cup', 'total']);
+        fillTable('tablaCampeonesTable', dataCampeones, ['edicion', 'campeon', 'equipo', 'sede']);
         <a href="index.html">Volver a la tabla principal</a>
             </script>
 </body>
